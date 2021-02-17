@@ -25,10 +25,6 @@ app.post('/' + bot.token, (req, res) => {
     res.sendStatus(200);
 });
 
+const auth = require('./auth');
 
-bot.on('message', (msg) => {
-    const chatId = msg.chat.id;
-
-    // send a message to the chat acknowledging receipt of their message
-    bot.sendMessage(chatId, `${JSON.stringify(msg)}`);
-});
+auth(bot);
