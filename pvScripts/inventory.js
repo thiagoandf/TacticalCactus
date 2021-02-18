@@ -56,6 +56,14 @@ module.exports = async (message) => {
       }
       break;
     }
+    case 'delete': {
+      try {
+        msg = await handleDelete(message.from.id, item);
+      } catch (e) {
+        msg = e
+      }
+      break;
+    }
   }
   return {
     type: 'sendMessage',
@@ -128,7 +136,7 @@ function handleAdd(id, item, amount) {
   })
 }
 
-function handleUse(id, item, amount) {
+function handleUse(id, item, amount = '1') {
   return new Promise((resolve, reject) => {
     if (isNaN(parseInt(amount)) || parseInt(amount) <= 0) reject('Invalid amount');
     getInfo(id).then(data => {
@@ -140,6 +148,20 @@ function handleUse(id, item, amount) {
         })
           .then((r) => {
             resolve(`${capitalize(item)} amount updated to ${r.data.amount}`)
+          })
+          .catch(() => reject('Error updating item'));
+      } else reject('Item not yet registered');
+    });
+  })
+}
+
+function handleDelete(id, item) {
+  return new Promise((resolve, reject) => {
+    getInfo(id).then(data => {
+      if (data.items[item]) {
+        axios.delete(`${process.env.DATABASE_URL}/users/${id}/items/${item.toLowerCase()}.json`)
+          .then((r) => {
+            resolve(`${capitalize(item)} deleted from stock`)
           })
           .catch(() => reject('Error updating item'));
       } else reject('Item not yet registered');
