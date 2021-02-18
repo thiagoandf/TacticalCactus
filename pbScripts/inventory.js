@@ -8,9 +8,17 @@ module.exports = async (message) => {
   const amount = message.text.split(" ")[3];
   const minimum = message.text.split(" ")[4];
   switch (command) {
+    case 'help': {
+      try {
+        msg = await getHelp();
+      } catch (e) {
+        msg = e
+      }
+      break;
+    }
     case 'add': {
       try {
-        msg = await handleAdd(message.from.id, item, amount);
+        msg = await handleAdd(message.from.id, item.toLowerCase(), amount);
       } catch (e) {
         msg = e
       }
@@ -18,7 +26,7 @@ module.exports = async (message) => {
     }
     case 'register': {
       try {
-        msg = await handleRegister(message.from.id, item, amount, minimum);
+        msg = await handleRegister(message.from.id, item.toLowerCase(), amount, minimum);
       } catch (e) {
         msg = e
       }
@@ -26,7 +34,7 @@ module.exports = async (message) => {
     }
     case 'check': {
       try {
-        msg = await handleGet(message.from.id, item);
+        msg = await handleGet(message.from.id, item.toLowerCase());
       } catch (e) {
         msg = e
       }
@@ -50,7 +58,7 @@ module.exports = async (message) => {
     }
     case 'use': {
       try {
-        msg = await handleUse(message.from.id, item, amount);
+        msg = await handleUse(message.from.id, item.toLowerCase(), amount);
       } catch (e) {
         msg = e
       }
@@ -58,7 +66,7 @@ module.exports = async (message) => {
     }
     case 'delete': {
       try {
-        msg = await handleDelete(message.from.id, item);
+        msg = await handleDelete(message.from.id, item.toLowerCase());
       } catch (e) {
         msg = e
       }
@@ -69,7 +77,7 @@ module.exports = async (message) => {
     type: 'sendMessage',
     message: msg,
     options: {
-      parse_mode: 'MarkdownV2'
+      parse_mode: 'HTML'
     }
   };
 }
@@ -123,7 +131,7 @@ function handleAdd(id, item, amount) {
     if (isNaN(parseInt(amount)) || parseInt(amount) <= 0) reject('Invalid amount');
     getInfo(id).then(data => {
       if (data.items[item]) {
-        axios.put(`${process.env.DATABASE_URL}/users/${id}/items/${item.toLowerCase()}.json`, {
+        axios.put(`${process.env.DATABASE_URL}/users/${id}/items/${item}.json`, {
           amount: parseInt(data.items[item].amount) + parseInt(amount),
           minimum: data.items[item].minimum,
         })
@@ -209,4 +217,22 @@ function getStock(id) {
       ).sort().join('\n'));
     })
   });
+}
+
+function getHelp() {
+  return `<b>Inventory - A home inventory management system</b>
+<i>The command works acording to the following layout</i> 
+
+<code>inventory [command] [item name (no spaces)] [amount] [minimum]</code>
+
+<u>The available commands are:</u>
+<code>help</code> - Prints this guide 
+<code>register</code> - Registers a new item   <code>name | amount | minimum</code> 
+<code>check</code> - Checks the specified item   <code>name</code> 
+<code>add</code> - Adds stock for the specified item   <code>name | amount</code> 
+<code>use</code> - Uses the specified item   <code>name | [amount = 1]</code> 
+<code>delete</code> - Deletes the specified item from your inventory   <code>name</code> 
+<code>stock</code> - Prints all the items in your current stock 
+<code>shopping</code> - Prints all the items in your current stock with amounts equal or smaller than the minimum 
+`
 }
