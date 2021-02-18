@@ -98,9 +98,9 @@ function handleGet(id, item) {
 function handleRegister(id, item, amount, min) {
   return new Promise((resolve, reject) => {
     if (isNaN(parseInt(amount)) ||
-      parseInt(amount) <= 0 ||
+      parseInt(amount) < 0 ||
       isNaN(parseInt(min)) ||
-      parseInt(min) <= 0
+      parseInt(min) < 0
     ) reject('Invalid amount');
     getInfo(id).then(data => {
       if (!data.items[item]) {
