@@ -1,5 +1,4 @@
 const pb = require('./pbScripts');
-const pv = require('./pvScripts');
 
 module.exports = (bot) => {
   bot.onText(/r\//, async (msg) => {
