@@ -4,4 +4,5 @@ module.exports = {
     coin: require('./coin'),
     this: require('./titw'),
     inventory: require('./inventory'),
+    'r': require('./reddit'),
 }
