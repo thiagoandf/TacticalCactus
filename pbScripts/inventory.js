@@ -2,7 +2,7 @@ const {capitalize} = require("../utils/auxiliar");
 const axios = require("axios");
 
 module.exports = async (message) => {
-  let msg = 'gg';
+  let msg = 'Unrecognized command';
   const command = message.text.split(" ")[1];
   const item = message.text.split(" ")[2];
   const amount = message.text.split(" ")[3];
