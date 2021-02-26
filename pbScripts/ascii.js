@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 module.exports = async (message) => {
-  let msg = 'gg';
+  let msg;
   const command = message.text.split(" ")[1];
   const fonts = await getFonts();
 
