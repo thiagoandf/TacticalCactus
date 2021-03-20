@@ -1,150 +1,210 @@
+const volume = {
+  TSP: 'tsp',
+  TBSP: 'tbsp',
+  FLOZ: 'floz',
+  CUP: 'cup',
+  PINT: 'pint',
+  GAL: 'gal',
+  ML: 'ml',
+  L: 'l',
+}
+
+const mass = {
+  LB: 'lb',
+  OZ: 'oz',
+  G: 'g',
+  KG: 'kg',
+}
+
+const ratio = {
+  // Volume
+  [volume.TSP]: {
+    [volume.TBSP]: 0.333,
+    [volume.FLOZ]: 0.169,
+    [volume.CUP]: 0.02,
+    [volume.PINT]: 0.011,
+    [volume.GAL]: 0.001,
+    [volume.ML]: 5,
+    [volume.L]: 0.005,
+  },
+  [volume.TBSP]: {
+    [volume.TSP]: 3,
+    [volume.FLOZ]: 0.507,
+    [volume.CUP]: 0.06,
+    [volume.PINT]: 0.032,
+    [volume.GAL]: 0.004,
+    [volume.ML]: 15,
+    [volume.L]: 0.015,
+  },
+  [volume.FLOZ]: {
+    [volume.TSP]: 5.915,
+    [volume.TBSP]: 1.972,
+    [volume.CUP]: 0.118,
+    [volume.PINT]: 0.063,
+    [volume.GAL]: 0.008,
+    [volume.ML]: 30,
+    [volume.L]: 0.030,
+  },
+  [volume.CUP]: {
+    [volume.TSP]: 50,
+    [volume.TBSP]: 16.666,
+    [volume.FLOZ]: 8.454,
+    [volume.PINT]: 0.528,
+    [volume.GAL]: 0.066,
+    [volume.ML]: 250,
+    [volume.L]: 0.250,
+  },
+  [volume.GAL]: {
+    [volume.TSP]: 757.082,
+    [volume.TBSP]: 252.361,
+    [volume.FLOZ]: 128,
+    [volume.PINT]: 8,
+    [volume.CUP]: 15.142,
+    [volume.ML]: 3785.412,
+    [volume.L]: 3785,
+  },
+  [volume.ML]: {
+    [volume.TSP]: 0.2,
+    [volume.TBSP]: 0.066,
+    [volume.FLOZ]: 0.034,
+    [volume.PINT]: 0.002,
+    [volume.CUP]: 0.004,
+    [volume.GAL]: 1/3785.412,
+    [volume.L]: 0.001,
+  },
+  [volume.L]: {
+    [volume.TSP]: 200,
+    [volume.TBSP]: 66.666,
+    [volume.FLOZ]: 33.814,
+    [volume.PINT]: 2.113,
+    [volume.CUP]: 4,
+    [volume.GAL]: 0.264,
+    [volume.ML]: 1000,
+  },
+
+  // Mass
+  [mass.LB]: {
+    [mass.OZ]: 16,
+    [mass.G]: 453.592,
+    [mass.KG]: 0.454
+  },
+  [mass.OZ]: {
+    [mass.LB]: 0.063,
+    [mass.G]: 28.350,
+    [mass.KG]: 0.028
+  },
+  [mass.G]: {
+    [mass.OZ]: 0.002,
+    [mass.LB]: 0.035,
+    [mass.KG]: 0.001
+  },
+  [mass.KG]: {
+    [mass.OZ]: 2.205,
+    [mass.LB]: 35.274,
+    [mass.G]: 1000
+  },
+}
+
+const vAlias = {
+  // Teaspoon
+  tsp: volume.TSP,
+  teaspoon: volume.TSP,
+
+  // Tablespoon
+  tbsp: volume.TBSP,
+  tbs: volume.TBSP,
+  tbl: volume.TBSP,
+  tablespoon: volume.TBSP,
+
+  // Fluid ounce
+  'fluid ounce': volume.FLOZ,
+  'fl oz': volume.FLOZ,
+  floz: volume.FLOZ,
+
+  // Cup
+  cup: volume.CUP,
+  c: volume.CUP,
+
+  // Pint
+  pint: volume.PINT,
+  p: volume.PINT,
+  pt: volume.PINT,
+  'fl pt': volume.PINT,
+
+  // Gallon
+  gallon: volume.GAL,
+  gal: volume.GAL,
+
+  // Milliliter
+  milliliter: volume.ML,
+  millilitre: volume.ML,
+  cc: volume.ML,
+  ml: volume.ML,
+
+  // Liter
+  liter: volume.L,
+  litre: volume.L,
+  l: volume.L,
+}
+
+const mAlias = {
+  // Pound
+  pound: mass.LB,
+  lb: mass.LB,
+
+  // Ounce
+  ounce: mass.OZ,
+  oz: mass.OZ,
+
+  // Gram
+  gram: mass.G,
+  gramme: mass.G,
+  g: mass.G,
+
+  // Kilo
+  kilo: mass.KG,
+  kilogram: mass.KG,
+  kilogramme: mass.KG,
+  kg: mass.KG,
+}
+
+const labels = {
+  [volume.TSP]: 'Teaspoon',
+  [volume.TBSP]: 'Tablespoon',
+  [volume.FLOZ]: 'Fluid Ounces',
+  [volume.PINT]: 'Pint',
+  [volume.CUP]: 'Cup',
+  [volume.GAL]: 'Gallon',
+  [volume.ML]: 'Milliliter',
+  [volume.L]: 'Liter',
+
+  [mass.LB]: 'Pound',
+  [mass.OZ]: 'Ounce',
+  [mass.G]: 'Gram',
+  [mass.KG]: 'Kilogram',
+}
+const unit = {
+  [volume.TSP]: 'tsp',
+  [volume.TBSP]: 'tbsp',
+  [volume.FLOZ]: 'fl oz',
+  [volume.PINT]: 'pint',
+  [volume.CUP]: 'cup',
+  [volume.GAL]: 'gal',
+  [volume.ML]: 'ml',
+  [volume.L]: 'L',
+
+  [mass.LB]: 'lb',
+  [mass.OZ]: 'oz',
+  [mass.G]: 'g',
+  [mass.KG]: 'kg',
+}
+
 module.exports = {
-  volume: {
-    TSP: 'tsp',
-    TBSP: 'tbsp',
-    FLOZ: 'floz',
-    CUP: 'cup',
-    PINT: 'pint',
-    GAL: 'gal',
-    ML: 'ml',
-    L: 'l',
-  },
-  mass: {
-    LB: 'lb',
-    OZ: 'oz',
-    MG: 'mg',
-    G: 'g',
-    KG: 'kg',
-  },
-  ratio: {
-    [this.TSP]: {
-      [this.TBSP]: 0.333,
-      [this.FLOZ]: 0.169,
-      [this.CUP]: 0.02,
-      [this.PINT]: 0.011,
-      [this.GAL]: 0.001,
-      [this.ML]: 5,
-      [this.L]: 0.005,
-    },
-    [this.TBSP]: {
-      [this.TSP]: 3,
-      [this.FLOZ]: 0.507,
-      [this.CUP]: 0.06,
-      [this.PINT]: 0.032,
-      [this.GAL]: 0.004,
-      [this.ML]: 15,
-      [this.L]: 0.015,
-    },
-    [this.FLOZ]: {
-      [this.TSP]: 5.915,
-      [this.TBSP]: 1.972,
-      [this.CUP]: 0.118,
-      [this.PINT]: 0.063,
-      [this.GAL]: 0.008,
-      [this.ML]: 30,
-      [this.L]: 0.030,
-    },
-    [this.CUP]: {
-      [this.TSP]: 50,
-      [this.TBSP]: 16.666,
-      [this.FLOZ]: 8.454,
-      [this.PINT]: 0.528,
-      [this.GAL]: 0.066,
-      [this.ML]: 250,
-      [this.L]: 0.250,
-    },
-    [this.GAL]: {
-      [this.TSP]: 757.082,
-      [this.TBSP]: 252.361,
-      [this.FLOZ]: 128,
-      [this.PINT]: 8,
-      [this.CUP]: 15.142,
-      [this.ML]: 3785.412,
-      [this.L]: 3785,
-    },
-    [this.ML]: {
-      [this.TSP]: 0.2,
-      [this.TBSP]: 0.066,
-      [this.FLOZ]: 0.034,
-      [this.PINT]: 0.002,
-      [this.CUP]: 0.004,
-      [this.GAL]: 1/3785.412,
-      [this.L]: 0.001,
-    },
-    [this.L]: {
-      [this.TSP]: 200,
-      [this.TBSP]: 66.666,
-      [this.FLOZ]: 33.814,
-      [this.PINT]: 2.113,
-      [this.CUP]: 4,
-      [this.GAL]: 0.264,
-      [this.ML]: 1000,
-    },
-  },
-  vAlias: {
-    // Teaspoon
-    tsp: this.TSP,
-    teaspoon: this.TSP,
-
-    // Tablespoon
-    tbsp: this.TBSP,
-    tbs: this.TBSP,
-    tbl: this.TBSP,
-    tablespoon: this.TBSP,
-
-    // Fluid ounce
-    'fluid ounce': this.FLOZ,
-    'fl oz': this.FLOZ,
-    floz: this.FLOZ,
-
-    // Cup
-    cup: this.CUP,
-    c: this.CUP,
-
-    // Pint
-    pint: this.PINT,
-    p: this.PINT,
-    pt: this.PINT,
-    'fl pt': this.PINT,
-
-    // Gallon
-    gallon: this.GAL,
-    gal: this.GAL,
-
-    // Milliliter
-    milliliter: this.ML,
-    millilitre: this.ML,
-    cc: this.ML,
-    ml: this.ML,
-
-    // Liter
-    liter: this.L,
-    litre: this.L,
-    l: this.L,
-  },
-  mAlias: {
-    // Pound
-    pound: this.LB,
-    lb: this.LB,
-
-    // Ounce
-    ounce: this.OZ,
-    oz: this.OZ,
-
-    // Milligram
-    milligram: this.MG,
-    milligramme: this.MG,
-    mg: this.mg,
-
-    // Gram
-    gram: this.G,
-    gramme: this.G,
-    g: this.G,
-
-    // Kilo
-    kilo: this.KG,
-    kilogram: this.KG,
-    kilogramme: this.KG,
-    kg: this.KG,
-  },
+  labels,
+  mAlias,
+  mass,
+  ratio,
+  u: unit,
+  vAlias,
+  volume,
 }
