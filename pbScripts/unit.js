@@ -16,8 +16,9 @@ module.exports = async (message) => {
     unit = split[0].replace(/.*[0-9]/g, '');
   }
 
-  if (amount.includes('/')) amount = parseFloat(eval(amount));
-  else amount = parseFloat(amount);
+  if (amount.includes('/')) amount = eval(amount);
+
+  amount = parseFloat(amount);
 
   let alias;
   if (mAlias[unit] || vAlias[unit]) alias = mAlias[unit] || vAlias[unit];
